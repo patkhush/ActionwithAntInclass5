@@ -1,43 +1,32 @@
-name: Multi-Platform Testing
+name: Dependent Jobs Workflow
 
 on:
-  pull_request:
+  push:
     branches: [ "master" ]
 
-
 jobs:
-  ubuntu-job:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - name: Print OS Info
-        run: uname -a
-      - name: Create file
-        run: |
-          echo "Hello from Ubuntu" > ubuntu.txt
-          cat ubuntu.txt
+      - name: Start build
+        run: echo "Building application..."
+      - name: Simulate build
+        run: sleep 5
 
-  windows-job:
-    runs-on: windows-latest
+  test:
+    runs-on: ubuntu-latest
+    needs: build
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - name: Print OS Info
-        run: systeminfo
-      - name: Create file
-        run: |
-          echo Hello from Windows > windows.txt
-          type windows.txt
+      - name: Begin tests
+        run: echo "Running tests..."
+      - name: Simulate testing
+        run: sleep 3
 
-  macos-job:
-    runs-on: macos-latest
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - name: Print OS Info
-        run: uname -a
-      - name: Create file
-        run: |
-          echo "Hello from MacOS" > macos.txt
-          cat macos.txt
+      - name: Start deployment
+        run: echo "Deploying application..."
+      - name: Simulate deployment
+        run: sleep 5
