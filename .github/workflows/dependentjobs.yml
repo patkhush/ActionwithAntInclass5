@@ -2,7 +2,8 @@ name: Multi-Platform Testing
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
+
 
 jobs:
   ubuntu-job:
