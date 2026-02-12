@@ -1,50 +1,32 @@
-name: Workflow 1 - Job Dependencies
+name: Dependent Jobs Workflow
 
-# Step 2: Trigger on push to the main branch
 on:
-  release:
-    types: created
-  
-  workflow_dispatch: #comment
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
-  # Job 1: Build
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Notify Build Start
-        run: echo "Initiating build process..."
-      - name: Simulate Build
-        run: |
-          echo "Building application..."
-          sleep 10
-          echo "Build complete."
+      - name: Start build
+        run: echo "Building application..."
+      - name: Simulate build
+        run: sleep 5
 
-  # Job 2: Test (Depends on Build)
   test:
+    runs-on: ubuntu-latest
     needs: build
-    runs-on: ubuntu-latest
     steps:
-      - name: Notify Test Start
-        run: echo "Initiating test suite..."
-      - name: Simulate Testing
-        run: |
-          echo "Running tests..."
-          sleep 10
-          echo "All tests passed."
+      - name: Begin tests
+        run: echo "Running tests..."
+      - name: Simulate testing
+        run: sleep 3
 
-  # Job 3: Deploy (Depends on Test)
   deploy:
-    needs: test
     runs-on: ubuntu-latest
+    needs: test
     steps:
-      - name: Notify Deployment Start
-        run: echo "Initiating deployment..."
-      - name: Simulate Deployment
-        run: |
-          echo "Deploying application..."
-          sleep 5
-          S "Deployment successful."
+      - name: Start deployment
+        run: echo "Deploying application..."
+      - name: Simulate deployment
+        run: sleep 3s
