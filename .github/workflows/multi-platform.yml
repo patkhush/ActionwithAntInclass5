@@ -1,0 +1,43 @@
+name: Multi-Platform Testing
+
+on:
+  pull_request:
+    branches: [ "master" ]
+
+
+jobs:
+  ubuntu-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Print OS Info
+        run: uname -a
+      - name: Create file
+        run: |
+          echo "Hello from Ubuntu" > ubuntu.txt
+          cat ubuntu.txt
+
+  windows-job:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Print OS Info
+        run: systeminfo
+      - name: Create file
+        run: |
+          echo Hello from Windows > windows.txt
+          type windows.txt
+
+  macos-job:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Print OS Info
+        run: uname -a
+      - name: Create file
+        run: |
+          echo "Hello from MacOS" > macos.txt
+          cat macos.txt
